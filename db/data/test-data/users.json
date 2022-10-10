@@ -1,0 +1,74 @@
+[
+  {
+    "first_name": "باران",
+    "last_name": "پارسا",
+    "email": "باران.پارسا@example.com",
+    "password": "pumper"
+  },
+  {
+    "first_name": "noah",
+    "last_name": "bonnet",
+    "email": "noah.bonnet@example.com",
+    "password": "gateway"
+  },
+  {
+    "first_name": "eemil",
+    "last_name": "neva",
+    "email": "eemil.neva@example.com",
+    "password": "mustang"
+  },
+  {
+    "first_name": "léonard",
+    "last_name": "arnaud",
+    "email": "léonard.arnaud@example.com",
+    "password": "bonjour"
+  },
+  {
+    "first_name": "leevi",
+    "last_name": "wiitala",
+    "email": "leevi.wiitala@example.com",
+    "password": "europe"
+  },
+  {
+    "first_name": "alma",
+    "last_name": "thomsen",
+    "email": "alma.thomsen@example.com",
+    "password": "moomoo"
+  },
+  {
+    "first_name": "mia",
+    "last_name": "li",
+    "email": "mia.li@example.com",
+    "password": "christa"
+  },
+  {
+    "first_name": "james",
+    "last_name": "warren",
+    "email": "james.warren@example.com",
+    "password": "coconut"
+  },
+  {
+    "first_name": "signe",
+    "last_name": "olsen",
+    "email": "signe.olsen@example.com",
+    "password": "feeling"
+  },
+  {
+    "first_name": "adam",
+    "last_name": "porter",
+    "email": "adam.porter@example.com",
+    "password": "wanda"
+  },
+  {
+    "first_name": "marcus",
+    "last_name": "andersen",
+    "email": "marcus.andersen@example.com",
+    "password": "1003"
+  },
+  {
+    "first_name": "melissa",
+    "last_name": "fritz",
+    "email": "melissa.fritz@example.com",
+    "password": "superstar"
+  }
+]
