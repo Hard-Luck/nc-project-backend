@@ -1,5 +1,50 @@
 {
+  "name": "be-nc-games",
+  "version": "1.0.0",
+  "description": "bc-nc-games",
+  "main": "index.js",
+  "scripts": {
+    "start": "node listen.js",
+    "seed:prod": "NODE_ENV=production DATABASE_URL=$(heroku config:get DATABASE_URL) npm run seed",
+    "setup-dbs": "psql -f ./db/setup.sql",
+    "seed": "node ./db/seeds/run-seed.js",
+    "test": "jest",
+    "prepare": "husky install && chmod ug+x .husky/*",
+    "dev": "nodemon listen.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/northcoders/be-nc-games.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/northcoders/be-nc-games/issues"
+  },
+  "homepage": "https://github.com/northcoders/be-nc-games#readme",
+  "dependencies": {
+    "18": "0.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "node": "^18.8.0",
+    "pg": "^8.7.3",
+    "pg-format": "^1.0.4"
+  },
   "devDependencies": {
+    "husky": "^7.0.0",
+    "jest": "^27.5.1",
+    "jest-extended": "^2.0.0",
+    "jest-sorted": "^1.0.14",
+    "nodemon": "^2.0.19",
+    "supertest": "^6.2.4",
     "typescript": "^4.8.4"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "jest-extended/all",
+      "jest-sorted"
+    ]
   }
 }
