@@ -1,7 +1,7 @@
 {
-  "name": "be-nc-games",
+  "name": "nc-project-be",
   "version": "1.0.0",
-  "description": "bc-nc-games",
+  "description": "backend for final project of northcoders",
   "main": "index.js",
   "scripts": {
     "start": "node listen.js",
