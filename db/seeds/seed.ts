@@ -1,5 +1,7 @@
-import { Schema, model, connect } from "mongoose";
+import { Schema, model, connect, connection } from "mongoose";
 import users = require("../data/development-data/users.json");
+
+const databaseUrl: string = "mongodb://localhost:27017/project"
 interface IUser {
     password: string;
     email: string;
@@ -7,21 +9,21 @@ interface IUser {
 }
 
 const userSchema = new Schema<IUser>({
-    email: { type: "string", required: true },
-    username: { type: "string", required: true },
-    password: { type: "string", required: true },
+    email: { type: "string", required: true, unique: true },
+    username: { type: "string", required: true, unique: true },
+    password: { type: "string", required: true, unique: true },
 })
 
 const User = model<IUser>("User", userSchema);
 
-async function seedUsers(): Promise<void> {
-    await connect("mongodb://localhost:27017/project");
+async function seedUsers(databaseUrl: string): Promise<void> {
+    await connect(databaseUrl);
 
     for (const user of users) {
         const { username, email, password } = user;
         const newUser = new User({ username, email, password });
         await newUser.save();
     }
-
+    await connection.close();
 }
-seedUsers().catch(err => console.error(err));
+seedUsers(databaseUrl).then().catch(err => console.error(err));
