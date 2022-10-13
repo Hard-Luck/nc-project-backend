@@ -12,7 +12,7 @@ class App {
 
     constructor(controllers: Controller[], port: number) {
         this.express = express()
-        this.port = port; 
+        this.port = port;
 
         this.initialiseDatabaseConnection();
         this.initialiseMiddleware();
@@ -22,7 +22,7 @@ class App {
 
     private initialiseMiddleware(): void {
         this.express.use(cors());
-        this.express.use(express.urlencoded({extended: false}));
+        this.express.use(express.urlencoded({ extended: false }));
         this.express.use(morgan('dev'));
         this.express.use(express.json());
         this.express.use(compression());
