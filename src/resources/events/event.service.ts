@@ -16,7 +16,7 @@ class EventService {
             comment._id = generateID();
             const existingEvent = await this.event.findOne({ name: eventObject.eventName });
             if (!existingEvent) {
-                await this.event.create({ name: eventObject.eventName, comments: [comment], time: 10000 });
+                await this.event.create({ name: eventObject.eventName, comments: [comment], time: eventObject.time });
             } else {
                 existingEvent?.comments.push(comment);
                 existingEvent?.save();

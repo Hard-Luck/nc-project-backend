@@ -4,12 +4,12 @@
             "Request Body": {
                 "eventObject": {
                     "eventName": "test-event",
-                    "time": 2030832,
-                    "comment": {
-                        "body": "test comment",
-                        "name": "Aran",
-                        "time": 1010101
-                    }
+                    "time": 2030832
+                },
+                "comment": {
+                    "body": "test comment",
+                    "name": "Aran",
+                    "time": 1010101
                 }
             },
             "details": "all dates and times are taken in unix time"
