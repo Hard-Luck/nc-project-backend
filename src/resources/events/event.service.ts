@@ -1,12 +1,11 @@
 import { Comment, Event } from './event.interface';
 import EventModel from './event.model';
-import { v4 as uuidv4 } from 'uuid';
 import { generateID } from '@/utils/idGen';
+import { ObjectId } from 'mongoose';
+import HttpException from '@/utils/exceptions/http.exception';
 
 class EventService {
     private event = EventModel;
-
-
 
     public async addComment(
         comment: Comment,
@@ -27,6 +26,19 @@ class EventService {
             throw new Error('failed to add comment');
         }
 
+    }
+    public async removeComment(event_id: ObjectId, comment_id: string): Promise<void | Error> {
+        const existingEvent = await this.event.findById(event_id);
+        const commentsLength = existingEvent?.comments.length
+        if (existingEvent) {
+            existingEvent.comments = existingEvent?.comments.filter(comm => {
+                return comm._id !== comment_id
+            })
+            if (existingEvent.comments.length === commentsLength) {
+                throw new HttpException(400, "Comment not found to delete");
+            }
+            existingEvent?.save();
+        }
     }
 }
 

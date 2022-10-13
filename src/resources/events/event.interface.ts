@@ -10,5 +10,5 @@ export interface Comment extends Document {
 export interface Event extends Document {
     eventName: string;
     time: number;
-    comments: Array<Comment>;
+    comments: Array<Comment>
 }

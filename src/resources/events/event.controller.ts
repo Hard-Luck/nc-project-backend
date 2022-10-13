@@ -13,10 +13,8 @@ class EventController implements Controller {
     }
 
     private initialiseRoutes(): void {
-        this.router.patch(
-            `${this.path}`,
-            this.patchEvents
-        );
+        this.router.patch(`${this.path}`, this.patchEvents);
+        this.router.delete(`${this.path}`, this.deleteComment)
     }
 
     private patchEvents = async (
@@ -33,7 +31,19 @@ class EventController implements Controller {
         }
     };
 
-
+    private deleteComment = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const { event_id, comment_id } = req.body
+            await this.EventService.removeComment(event_id, comment_id)
+            res.status(200).send({ msg: "Deleted comment" })
+        } catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    }
 }
 
 export default EventController;
