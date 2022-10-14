@@ -2,22 +2,39 @@ import { Comment, Event } from './event.interface';
 import EventModel from './event.model';
 import { generateID } from '@/utils/idGen';
 import { ObjectId } from 'mongoose';
-import HttpException from '@/utils/exceptions/http.exception';
 
 class EventService {
     private event = EventModel;
 
+    public async addEvent(
+        event_name: string,
+        details: string,
+        username: string,
+        time: number,
+    ): Promise<object | Error> {
+        try {
+            const event = await this.event.create({ event_name, details, username, time });
+            return event
+        }
+        catch (error) {
+            console.error(error);
+            throw new Error('event not created');
+        }
+    }
+
     public async addComment(
-        comment: Comment,
-        eventObject: Event,
+        username: string,
+        body: string,
+        event_id: string,
     ): Promise<void | Error> {
         try {
-            comment._id = generateID();
-            const existingEvent = await this.event.findOne({ name: eventObject.eventName });
+            const id = generateID();
+            let toAdd = { username, body, time: Date.now(), _id: id, votes: 0 } as Comment;
+            const existingEvent = await this.event.findById(event_id);
             if (!existingEvent) {
-                await this.event.create({ name: eventObject.eventName, comments: [comment], time: eventObject.time });
+                throw new Error(`event not found`)
             } else {
-                existingEvent?.comments.push(comment);
+                existingEvent?.comments.push(toAdd);
                 existingEvent?.save();
             }
 
@@ -27,7 +44,7 @@ class EventService {
         }
 
     }
-    public async removeComment(event_id: ObjectId, comment_id: string): Promise<void | Error> {
+    public async removeComment(event_id: string, comment_id: string): Promise<void | Error> {
         const existingEvent = await this.event.findById(event_id);
         const commentsLength = existingEvent?.comments.length
         if (existingEvent) {
@@ -35,7 +52,7 @@ class EventService {
                 return comm._id !== comment_id
             })
             if (existingEvent.comments.length === commentsLength) {
-                throw new HttpException(400, "Comment not found to delete");
+                throw new Error("Comment not found to delete");
             }
             existingEvent?.save();
         }
