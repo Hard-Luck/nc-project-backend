@@ -14,5 +14,14 @@
             },
             "details": "all dates and times are taken in unix time"
         }
+    },
+    {
+        "delete api/events": {
+            "Request Body": {
+                    "event_id": 2379845894349857,
+                    "comment_id": 20308343782
+                
+            }
+        }
     }
 ]
