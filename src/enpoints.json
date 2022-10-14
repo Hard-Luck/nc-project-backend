@@ -18,10 +18,9 @@
     {
         "delete api/events": {
             "Request Body": {
-                "eventObject": {
                     "event_id": 2379845894349857,
                     "comment_id": 20308343782
-                }
+                
             }
         }
     }
