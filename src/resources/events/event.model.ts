@@ -3,19 +3,26 @@ import { Comment, Event } from '@/resources/events/event.interface';
 
 const EventSchema = new Schema(
     {
-        name: {
+        event_name: {
             type: String,
             required: true,
+        },
+        details: {
+            type: String
         },
         time: {
             type: Number,
             required: true,
-            unique: true,
         },
         comments: {
             type: Array<Comment>,
-            required: true,
+            default: [],
         },
+        interested_in: {
+            type: Array<String>,
+            default: []
+        }
+
     },
     { timestamps: true }
 );

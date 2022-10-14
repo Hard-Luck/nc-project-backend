@@ -1,14 +1,17 @@
-import { Decimal128, Document, ObjectId } from 'mongoose';
+import { Document } from 'mongoose';
 
 export interface Comment extends Document {
     username: string;
     time: number;
     body: string;
     _id: string;
+    votes: number;
 }
 
 export interface Event extends Document {
-    eventName: string;
+    event_name: string;
+    username: string;
     time: number;
     comments: Array<Comment>
+    interested_in: Array<string>
 }

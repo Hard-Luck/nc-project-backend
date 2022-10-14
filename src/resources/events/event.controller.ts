@@ -13,19 +13,72 @@ class EventController implements Controller {
     }
 
     private initialiseRoutes(): void {
-        this.router.patch(`${this.path}`, this.patchEvents);
-        this.router.delete(`${this.path}`, this.deleteComment)
-    }
+        this.router.get(`${this.path}`, this.getEvents);
+        this.router.post(`${this.path}`, this.postEvent);
+        this.router.delete(`${this.path}/:event_id`, this.deleteEvent);
 
-    private patchEvents = async (
+        this.router.post(`${this.path}/:event_id/comment`, this.postComment);
+        this.router.delete(
+            `${this.path}/:event_id/:comment_id`,
+            this.deleteComment
+        );
+    }
+    private getEvents = async (
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
         try {
-            const { comment, eventObject } = req.body
-            await this.EventService.addComment(comment, eventObject)
-            res.status(201).send({ msg: "success" })
+            const events = await this.EventService.getAllEvents();
+            res.status(200).send({ events });
+        } catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    };
+
+    private postEvent = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const { event_name, details, username, time } = req.body;
+            const event = await this.EventService.addEvent(
+                event_name,
+                details,
+                username,
+                time
+            );
+            res.status(201).send({ msg: `${event_name} added`, event });
+        } catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    };
+
+    private deleteEvent = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const { event_id } = req.params
+            await this.EventService.removeEvent(event_id);
+            res.status(200).send()
+        } catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    }
+
+    private postComment = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const { username, body } = req.body;
+            const { event_id } = req.params;
+            await this.EventService.addComment(username, body, event_id);
+            res.status(201).send({ msg: 'success' });
         } catch (error: any) {
             next(new HttpException(400, error.message));
         }
@@ -37,15 +90,13 @@ class EventController implements Controller {
         next: NextFunction
     ): Promise<Response | void> => {
         try {
-            const { event_id, comment_id } = req.body
-            await this.EventService.removeComment(event_id, comment_id)
-            res.status(200).send({ msg: "Deleted comment" })
+            const { event_id, comment_id } = req.params;
+            await this.EventService.removeComment(event_id, comment_id);
+            res.status(200).send({ msg: 'Deleted comment' });
         } catch (error: any) {
             next(new HttpException(400, error.message));
         }
-    }
+    };
 }
 
 export default EventController;
-
-
