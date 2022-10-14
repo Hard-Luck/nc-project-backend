@@ -57,6 +57,15 @@ class EventService {
             existingEvent?.save();
         }
     }
+
+    public async getAllEvents(): Promise<Event[]> {
+        try {
+            const events = await this.event.find({});
+            return events
+        } catch (error: any) {
+            throw new Error("Could not get events")
+        }
+    }
 }
 
 export default EventService

@@ -13,6 +13,7 @@ class EventController implements Controller {
     }
 
     private initialiseRoutes(): void {
+        this.router.get(`${this.path}`, this.getEvents);
         this.router.post(`${this.path}`, this.postEvent);
         this.router.post(
             `${this.path}/:event_id/comment`,
@@ -23,6 +24,18 @@ class EventController implements Controller {
             this.deleteComment
         );
     }
+    private getEvents = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const events = await this.EventService.getAllEvents();
+            res.status(200).send({ events });
+        } catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    };
 
     private postEvent = async (
         req: Request,
