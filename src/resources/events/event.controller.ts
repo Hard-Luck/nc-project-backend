@@ -15,7 +15,7 @@ class EventController implements Controller {
     private initialiseRoutes(): void {
         this.router.post(`${this.path}`, this.postEvent);
         this.router.post(
-            `${this.path}/:event_id`,
+            `${this.path}/:event_id/comment`,
             this.postComment
         );
         this.router.delete(
