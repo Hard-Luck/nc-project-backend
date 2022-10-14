@@ -1,7 +1,6 @@
 import { Comment, Event } from './event.interface';
 import EventModel from './event.model';
 import { generateID } from '@/utils/idGen';
-import { ObjectId } from 'mongoose';
 
 class EventService {
     private event = EventModel;
@@ -14,6 +13,16 @@ class EventService {
             throw new Error("Could not get events")
         }
     }
+
+    public async getEventById(event_id: string): Promise<Event[]> {
+        try {
+            const event = await this.event.find({ _id: event_id });
+            return event
+        } catch (error: any) {
+            throw new Error("Could not get events")
+        }
+    }
+
 
     public async addEvent(
         event_name: string,

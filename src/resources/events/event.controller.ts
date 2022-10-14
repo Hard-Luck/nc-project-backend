@@ -15,6 +15,8 @@ class EventController implements Controller {
     private initialiseRoutes(): void {
         this.router.get(`${this.path}`, this.getEvents);
         this.router.post(`${this.path}`, this.postEvent);
+        this.router.get(`${this.path}/:event_id`, this.getEvent);
+
         this.router.delete(`${this.path}/:event_id`, this.deleteEvent);
 
         this.router.post(`${this.path}/:event_id/comment`, this.postComment);
@@ -31,6 +33,20 @@ class EventController implements Controller {
         try {
             const events = await this.EventService.getAllEvents();
             res.status(200).send({ events });
+        } catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    };
+
+    private getEvent = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        const { event_id } = req.params
+        try {
+            const event = await this.EventService.getEventById(event_id);
+            res.status(200).send({ event });
         } catch (error: any) {
             next(new HttpException(400, error.message));
         }
