@@ -15,10 +15,9 @@ class EventController implements Controller {
     private initialiseRoutes(): void {
         this.router.get(`${this.path}`, this.getEvents);
         this.router.post(`${this.path}`, this.postEvent);
-        this.router.post(
-            `${this.path}/:event_id/comment`,
-            this.postComment
-        );
+        this.router.delete(`${this.path}/:event_id`, this.deleteEvent);
+
+        this.router.post(`${this.path}/:event_id/comment`, this.postComment);
         this.router.delete(
             `${this.path}/:event_id/:comment_id`,
             this.deleteComment
@@ -44,12 +43,31 @@ class EventController implements Controller {
     ): Promise<Response | void> => {
         try {
             const { event_name, details, username, time } = req.body;
-            const event = await this.EventService.addEvent(event_name, details, username, time);
+            const event = await this.EventService.addEvent(
+                event_name,
+                details,
+                username,
+                time
+            );
             res.status(201).send({ msg: `${event_name} added`, event });
         } catch (error: any) {
             next(new HttpException(400, error.message));
         }
     };
+
+    private deleteEvent = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const { event_id } = req.params
+            await this.EventService.removeEvent(event_id);
+            res.status(200).send()
+        } catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    }
 
     private postComment = async (
         req: Request,

@@ -1,4 +1,8 @@
 [
+    { "Get api/events": "returns list off all events" },
+    {
+        "Delete api/events/:event_id": "No body response - deletes event with matching event id"
+    },
     {
         "Post api/events": {
             "Request Body": {

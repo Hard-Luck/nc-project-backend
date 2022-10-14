@@ -6,6 +6,15 @@ import { ObjectId } from 'mongoose';
 class EventService {
     private event = EventModel;
 
+    public async getAllEvents(): Promise<Event[]> {
+        try {
+            const events = await this.event.find({});
+            return events
+        } catch (error: any) {
+            throw new Error("Could not get events")
+        }
+    }
+
     public async addEvent(
         event_name: string,
         details: string,
@@ -19,6 +28,15 @@ class EventService {
         catch (error) {
             console.error(error);
             throw new Error('event not created');
+        }
+    }
+
+    public async removeEvent(event_id: string): Promise<void | Error> {
+        try {
+            await this.event.deleteOne({ _id: event_id });
+        } catch (error: any) {
+            console.log(error)
+            throw new Error('failed to delete event');
         }
     }
 
@@ -39,7 +57,6 @@ class EventService {
             }
 
         } catch (err) {
-            console.error(err);
             throw new Error('failed to add comment');
         }
 
@@ -58,14 +75,7 @@ class EventService {
         }
     }
 
-    public async getAllEvents(): Promise<Event[]> {
-        try {
-            const events = await this.event.find({});
-            return events
-        } catch (error: any) {
-            throw new Error("Could not get events")
-        }
-    }
+
 }
 
 export default EventService
