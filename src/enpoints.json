@@ -1,27 +1,26 @@
 [
     {
-        "Patch api/events": {
+        "Post api/events": {
             "Request Body": {
-                "eventObject": {
-                    "eventName": "test-event",
-                    "time": 2030832
-                },
-                "comment": {
-                    "body": "test comment",
-                    "name": "Aran",
-                    "time": 1010101
-                }
+                "event_name": "name of event",
+                "details": "description of the event",
+                "username": "name of user posting the event",
+                "time": "time the event is due to take place "
             },
             "details": "all dates and times are taken in unix time"
         }
     },
     {
-        "delete api/events": {
+        "post api/events/:event_id/comment": {
             "Request Body": {
-                    "event_id": 2379845894349857,
-                    "comment_id": 20308343782
-                
+                "username": "name of user commenting",
+                "body": "comment to be added"
             }
+        }
+    },
+    {
+        "delete api/events/:event_id/:comment_id": {
+            "info": "No request body"
         }
     }
 ]
