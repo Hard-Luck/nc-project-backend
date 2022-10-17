@@ -21,8 +21,11 @@ const EventSchema = new Schema(
         interested_in: {
             type: Array<String>,
             default: []
+        },
+        username: {
+            type: String,
+            required: true,
         }
-
     },
     { timestamps: true }
 );

@@ -33,7 +33,8 @@ class EventController implements Controller {
         next: NextFunction
     ): Promise<Response | void> => {
         try {
-            const events = await this.EventService.getAllEvents();
+            const { username, event_name } = req.query
+            const events = await this.EventService.getAllEvents(username as string, event_name as string);
             res.status(200).send({ events });
         } catch (error: any) {
             next(new HttpException(400, error.message));

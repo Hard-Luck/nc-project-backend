@@ -21,3 +21,8 @@ export interface Image extends Document {
     event_id: string;
     image: string;
 }
+
+export interface EventQuery {
+    username: string | undefined;
+    event_name: string | undefined;
+}
