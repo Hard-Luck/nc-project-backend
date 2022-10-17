@@ -20,12 +20,20 @@ class EventService {
     public async getEventById(event_id: string): Promise<Event[]> {
         try {
             const event = await this.event.find({ _id: event_id });
+            const image = await this.image.find({ event_id: event_id });
             return event
         } catch (error: any) {
             throw new Error("Could not get events")
         }
     }
-
+    public async getEventImageById(event_id: string): Promise<Image[]> {
+        try {
+            const image = await this.image.find({ event_id: event_id })
+            return image
+        } catch (error: any) {
+            throw new Error("Could not get image")
+        }
+    }
 
     public async addEvent(
         event_name: string,

@@ -32,12 +32,18 @@
         }
     },
     {
+        "get api/events/:event_id/image": {
+            "info": "returns image in base64 format"
+        }
+    },
+    {
         "Post api/events": {
             "Request Body": {
                 "event_name": "name of event",
                 "details": "description of the event",
                 "username": "name of user posting the event",
-                "time": "time the event is due to take place "
+                "time": "time the event is due to take place",
+                "image": "image should be in base64 format use blank string if no image is set"
             },
             "details": "all dates and times are taken in unix time"
         }

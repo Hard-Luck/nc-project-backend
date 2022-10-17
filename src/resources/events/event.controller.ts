@@ -51,6 +51,20 @@ class EventController implements Controller {
             next(new HttpException(400, error.message));
         }
     };
+    private getEventImage = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const { event_id } = req.params
+            const image = await this.EventService.getEventImageById(event_id);
+            res.status(200).send({ image });
+        }
+        catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    }
 
     private postEvent = async (
         req: Request,
