@@ -16,6 +16,7 @@ class EventController implements Controller {
         this.router.get(`${this.path}`, this.getEvents);
         this.router.post(`${this.path}`, this.postEvent);
         this.router.get(`${this.path}/:event_id`, this.getEvent);
+        this.router.get(`${this.path}/:event_id/image`, this.getEventImage)
 
         this.router.delete(`${this.path}/:event_id`, this.deleteEvent);
         this.router.post(`${this.path}/:event_id/:username/interested`, this.postInterested)
