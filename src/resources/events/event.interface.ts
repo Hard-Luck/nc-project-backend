@@ -1,3 +1,4 @@
+import { Base64Options } from 'joi';
 import { Document } from 'mongoose';
 
 export interface Comment extends Document {
@@ -14,4 +15,9 @@ export interface Event extends Document {
     time: number;
     comments: Array<Comment>
     interested_in: Array<string>
+}
+
+export interface Image extends Document {
+    event_id: string;
+    image: string;
 }

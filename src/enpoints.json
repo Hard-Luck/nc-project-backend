@@ -4,12 +4,46 @@
         "Delete api/events/:event_id": "No body response - deletes event with matching event id"
     },
     {
+        "get api/events/:event_id": {
+            "description": "returns event matching event id",
+            "exampleResponse": {
+                "events": [
+                    {
+                        "_id": "634942892e014d1c457b4e9b",
+                        "event_name": "test-event-3",
+                        "details": "test event added for testing",
+                        "time": 16657445999,
+                        "comments": [
+                            {
+                                "username": "Aran",
+                                "body": "this is a another test comment",
+                                "time": 1665745850712,
+                                "_id": "89176950799059780",
+                                "votes": 0
+                            }
+                        ],
+                        "interested_in": [],
+                        "createdAt": "2022-10-14T11:05:45.789Z",
+                        "updatedAt": "2022-10-14T11:14:32.719Z",
+                        "__v": 3
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "get api/events/:event_id/image": {
+            "info": "returns image in base64 format"
+        }
+    },
+    {
         "Post api/events": {
             "Request Body": {
                 "event_name": "name of event",
                 "details": "description of the event",
                 "username": "name of user posting the event",
-                "time": "time the event is due to take place "
+                "time": "time the event is due to take place",
+                "image": "image should be in base64 format use blank string if no image is set"
             },
             "details": "all dates and times are taken in unix time"
         }

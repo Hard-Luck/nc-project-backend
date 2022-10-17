@@ -15,6 +15,8 @@ class EventController implements Controller {
     private initialiseRoutes(): void {
         this.router.get(`${this.path}`, this.getEvents);
         this.router.post(`${this.path}`, this.postEvent);
+        this.router.get(`${this.path}/:event_id`, this.getEvent);
+
         this.router.delete(`${this.path}/:event_id`, this.deleteEvent);
         this.router.post(`${this.path}/:event_id/:username/interested`, this.postInterested)
 
@@ -37,18 +39,47 @@ class EventController implements Controller {
         }
     };
 
+    private getEvent = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        const { event_id } = req.params
+        try {
+            const event = await this.EventService.getEventById(event_id);
+            res.status(200).send({ event });
+        } catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    };
+    private getEventImage = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const { event_id } = req.params
+            const image = await this.EventService.getEventImageById(event_id);
+            res.status(200).send({ image });
+        }
+        catch (error: any) {
+            next(new HttpException(400, error.message));
+        }
+    }
+
     private postEvent = async (
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
         try {
-            const { event_name, details, username, time } = req.body;
+            const { event_name, details, username, time, image } = req.body;
             const event = await this.EventService.addEvent(
                 event_name,
                 details,
                 username,
-                time
+                time,
+                image
             );
             res.status(201).send({ msg: `${event_name} added`, event });
         } catch (error: any) {
