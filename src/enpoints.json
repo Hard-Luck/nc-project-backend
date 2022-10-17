@@ -26,5 +26,10 @@
         "delete api/events/:event_id/:comment_id": {
             "info": "No request body"
         }
+    },
+    {
+        "post api/events/:event_id/:username/interested": {
+            "info": "adds username to list interested_in array"
+        }
     }
 ]

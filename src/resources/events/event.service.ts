@@ -62,19 +62,39 @@ class EventService {
 
     }
     public async removeComment(event_id: string, comment_id: string): Promise<void | Error> {
-        const existingEvent = await this.event.findById(event_id);
-        const commentsLength = existingEvent?.comments.length
-        if (existingEvent) {
-            existingEvent.comments = existingEvent?.comments.filter(comm => {
-                return comm._id !== comment_id
-            })
-            if (existingEvent.comments.length === commentsLength) {
-                throw new Error("Comment not found to delete");
+        try {
+            const existingEvent = await this.event.findById(event_id);
+            const commentsLength = existingEvent?.comments.length
+            if (existingEvent) {
+                existingEvent.comments = existingEvent?.comments.filter(comm => {
+                    return comm._id !== comment_id
+                })
+                if (existingEvent.comments.length === commentsLength) {
+                    throw new Error("Comment not found to delete");
+                }
+                existingEvent?.save();
             }
-            existingEvent?.save();
+        }
+        catch (error) {
+            throw new Error("failed to remove comment")
+
         }
     }
-
+    public async addInterested(username: string, event_id: string): Promise<void | Error> {
+        try {
+            const existingEvent = await this.event.findById(event_id);
+            const interestedLength = existingEvent?.interested_in.length
+            if (!existingEvent?.interested_in.includes(username)) {
+                existingEvent?.interested_in.push(username);
+            }
+            if (interestedLength === existingEvent?.interested_in.length) {
+                throw new Error("failed to add to interested")
+            }
+            existingEvent?.save();
+        } catch (error) {
+            throw new Error("failed to add interested_in")
+        }
+    }
 
 }
 
