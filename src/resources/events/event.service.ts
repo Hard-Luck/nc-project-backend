@@ -1,10 +1,11 @@
-import { Comment, Event } from './event.interface';
+import { Comment, Event, Image } from './event.interface';
 import EventModel from './event.model';
 import { generateID } from '@/utils/idGen';
-import { ObjectId } from 'mongoose';
+import ImageModel from './image.model';
 
 class EventService {
     private event = EventModel;
+    private image = ImageModel
 
     public async getAllEvents(): Promise<Event[]> {
         try {
@@ -20,9 +21,12 @@ class EventService {
         details: string,
         username: string,
         time: number,
+        image: string | undefined,
     ): Promise<object | Error> {
         try {
             const event = await this.event.create({ event_name, details, username, time });
+            const event_id = String(event._id)
+            if (image !== "") await this.image.create({ event_id, image })
             return event
         }
         catch (error) {

@@ -42,12 +42,13 @@ class EventController implements Controller {
         next: NextFunction
     ): Promise<Response | void> => {
         try {
-            const { event_name, details, username, time } = req.body;
+            const { event_name, details, username, time, image } = req.body;
             const event = await this.EventService.addEvent(
                 event_name,
                 details,
                 username,
-                time
+                time,
+                image
             );
             res.status(201).send({ msg: `${event_name} added`, event });
         } catch (error: any) {
