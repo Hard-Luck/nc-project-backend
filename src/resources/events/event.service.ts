@@ -2,17 +2,36 @@ import { Comment, Event, Image } from './event.interface';
 import EventModel from './event.model';
 import { generateID } from '@/utils/idGen';
 import ImageModel from './image.model';
+import console from 'console';
 
 
 class EventService {
     private event = EventModel;
     private image = ImageModel
 
-    public async getAllEvents(): Promise<Event[]> {
+    public async getAllEvents(username: string, event_name: string): Promise<Event[]> {
         try {
+
+            if (username) {
+                const events = await this.event.find({ username: { $regex: new RegExp("^" + username, "i"), } });
+                if (event_name) {
+                    return events.filter(event => {
+                        return event.username?.toLowerCase() === username.toLowerCase();
+                    })
+                } else {
+                    return events
+                }
+            }
+            if (event_name) {
+                {
+                    const events = await this.event.find({ event_name: { $regex: new RegExp("^" + event_name, "i"), } });
+                    return events
+                }
+            }
             const events = await this.event.find({});
             return events
         } catch (error: any) {
+            console.error(error)
             throw new Error("Could not get events")
         }
     }
@@ -20,7 +39,6 @@ class EventService {
     public async getEventById(event_id: string): Promise<Event[]> {
         try {
             const event = await this.event.find({ _id: event_id });
-            const image = await this.image.find({ event_id: event_id });
             return event
         } catch (error: any) {
             throw new Error("Could not get events")
